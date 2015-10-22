@@ -29,10 +29,11 @@ public class Hilo extends Thread {
                     break;
             }
             
-            sleep(1000);
+            sleep(1333);
             
             // Espera mientras no sea seguro pasar por el puente
-            while(!isSafe(carro.getDireccion())){}
+            while(!isSafe(carro.getDireccion())){sleep(((int)(Math.random() * 223)) + 333);}
+            Main.gui.contadorPuente++;
             
             // Pasa por el puente
             switch(carro.getDireccion()){
@@ -49,32 +50,50 @@ public class Hilo extends Thread {
             Main.gui.agregarCarroPuente(carro);
             Main.gui.actualizaCarrosPuente();
             Main.gui.setDireccionActual(carro.getDireccion());
-            System.out.println(String.format("Carro %s pasando por el puente...", carro.getId()));
-            sleep(5000);
+            System.out.println(String.format(Main.gui.contadorPuente + " Carro %s pasando por el puente...", carro.getId()));
+            sleep(5733);
             
             // Sale del puente
             Main.gui.eliminarCarroPuente(carro);
             Main.gui.actualizaCarrosPuente();
+            Main.gui.contadorPuente--;
+            System.out.println(String.format(Main.gui.contadorPuente + " Carro %s saliendo del puente...", carro.getId()));
             
-            System.out.println(String.format("Carro %s saliendo del puente...", carro.getId()));
-            
+            if(Main.gui.contadorPuente < 1){
+                switch(Main.gui.getDireccionActual()){
+                    case 0:
+                        if(Main.gui.getCarrosSur().size() != 0){
+                            Main.gui.setAccesoNorte(true);
+                            Main.gui.setAccesoSur(false);
+                            Main.gui.setDireccionActual(1);
+                        }
+                        break;
+                    case 1:
+                        if(Main.gui.getCarrosNorte().size() != 0){
+                            Main.gui.setAccesoNorte(false);
+                            Main.gui.setAccesoSur(true);
+                            Main.gui.setDireccionActual(0);
+                        }
+                        break;
+                }
+            }
         }catch(InterruptedException e){}
     }
     
     private boolean isSafe(int direccion){
         switch(direccion){
             case 0:
-                if((Main.gui.getCarrosPuente().size() == 0) && Main.gui.getAccesoSur()){
+                if((Main.gui.contadorPuente == 0) && Main.gui.getAccesoSur()){
                     return true;
-                }else if((Main.gui.getCarrosPuente().size() < Main.gui.MAX_CARROS) && (Main.gui.getDireccionActual() == direccion) && Main.gui.getAccesoSur()){
+                }else if((Main.gui.contadorPuente < Main.gui.MAX_CARROS) && (Main.gui.getDireccionActual() == direccion) && Main.gui.getAccesoSur()){
                     return true;
                 }else{
                     return false;
                 }
             case 1:
-                if((Main.gui.getCarrosPuente().size() == 0) && Main.gui.getAccesoNorte()){
+                if((Main.gui.contadorPuente == 0) && Main.gui.getAccesoNorte()){
                     return true;
-                }else if((Main.gui.getCarrosPuente().size() < Main.gui.MAX_CARROS) && (Main.gui.getDireccionActual() == direccion) && Main.gui.getAccesoNorte()){
+                }else if((Main.gui.contadorPuente < Main.gui.MAX_CARROS) && (Main.gui.getDireccionActual() == direccion) && Main.gui.getAccesoNorte()){
                     return true;
                 }else{
                     return false;

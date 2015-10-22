@@ -20,6 +20,9 @@ public class Main extends javax.swing.JFrame {
     // Numero máximo de carros que pueden usar el puente simultaneamente
     public static int MAX_CARROS = 3;
     
+    // Contador de carros en el puente
+    public int contadorPuente = 0;
+    
     // Contador de los identificadores de cada carro
     int currentId = 0;
     

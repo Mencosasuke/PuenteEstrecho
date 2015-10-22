@@ -34,7 +34,7 @@ public class Puente {
         for(int i = 0; i < 10; i++){
             try{
                 carros[i].start();
-                sleep(1000);
+                sleep(933);
             }catch(InterruptedException e){}
         }
         
