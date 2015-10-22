@@ -64,6 +64,9 @@ public class Monitor extends Thread {
                     Main.gui.setDireccionActual(1);
                 }
             }
+            try{
+                sleep(1000);
+            }catch(InterruptedException e){}
         }
     }
 }
